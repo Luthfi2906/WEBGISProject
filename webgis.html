@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Maps Swalayan Pekanbaru</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .hero{
+    height:300px;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.55)
+    ),
+    url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab");
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+    color:white;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    max-width:700px;
+}
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins', sans-serif;
+    }
+
+    body{
+      background:#f4f7fb;
+      color:#333;
+    }
+
+    /* HEADER */
+    header{
+      background:linear-gradient(135deg,#0f62fe,#3b82f6);
+      color:white;
+      padding:40px 20px;
+      text-align:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    header h1{
+      font-size:36px;
+      margin-bottom:10px;
+    }
+
+    header p{
+      opacity:0.9;
+      font-size:16px;
+    }
+
+    /* CONTAINER */
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:40px auto;
+    }
+
+    /* SEARCH */
+.search-box{
+    position:relative;
+    z-index:999;
+
+    margin-top:-35px;
+
+    background:white;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.15);
+}
+
+    .search-box{
+      display:flex;
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .search-box input{
+      flex:1;
+      padding:15px;
+      border:none;
+      border-radius:12px;
+      outline:none;
+      font-size:16px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .search-box button{
+      padding:15px 25px;
+      border:none;
+      background:#0f62fe;
+      color:white;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:16px;
+      transition:0.3s;
+    }
+
+    .search-box button:hover{
+      background:#0047c7;
+    }
+
+    /* MAP */
+    iframe{
+      width:100%;
+      height:600px;
+      border:none;
+      border-radius:20px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.08);
+      margin-bottom:30px;
+      background:white;
+    }
+
+    /* DETAIL CARD */
+    .detail-card{
+      background:white;
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 8px 25px rgba(0,0,0,0.08);
+      display:flex;
+      flex-wrap:wrap;
+      min-height:350px;
+    }
+
+    .detail-image{
+      flex:1 1 350px;
+      min-height:350px;
+    }
+
+    .detail-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .detail-info{
+      flex:1 1 400px;
+      padding:30px;
+    }
+
+    .detail-info h2{
+      font-size:30px;
+      color:#0f62fe;
+      margin-bottom:20px;
+    }
+
+    .detail-info p{
+      margin-bottom:14px;
+      line-height:1.7;
+    }
+
+    .info-box{
+      background:#eef4ff;
+      padding:18px;
+      border-radius:14px;
+      margin-top:20px;
+    }
+
+    .btn-route{
+      display:inline-block;
+      margin-top:20px;
+      padding:12px 20px;
+      background:#0f62fe;
+      color:white;
+      text-decoration:none;
+      border-radius:10px;
+      transition:0.3s;
+    }
+
+    .btn-route:hover{
+      background:#0047c7;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      color:#777;
+      font-size:14px;
+      margin-top:30px;
+    }
+
+    @media(max-width:768px){
+      header h1{
+        font-size:28px;
+      }
+
+      iframe{
+        height:450px;
+      }
+
+      .detail-info h2{
+        font-size:24px;
+      }
+
+      .search-box{
+        flex-direction:column;
+      }
+    }
+
+    .detail-card{
+    transition:.3s;
+}
+
+.detail-card:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.15);
+}
+
+  </style>
+
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-content">
+        <h1>🛒 Web Maps Persebaran Swalayan Pekanbaru</h1>
+
+        <p>
+            Menampilkan lokasi swalayan, minimarket,
+            supermarket, dan pusat perbelanjaan
+            di Kota Pekanbaru secara interaktif.
+        </p>
+    </div>
+</header>
+
+ <div class="container">
+
+  <div class="search-box">
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Cari swalayan (Contoh: Hero, Indomaret, Alfamart)...">
+
+  <button onclick="cariSwalayan()">
+    Cari
+  </button>
+
+</div>
+
+  <div class="sidebar">
+      <h3>Daftar Swalayan</h3>
+
+      <div id="swalayanList">
+
+      </div>
+  </div>
+
+  <iframe
+      id="mapFrame"
+      src="SWALAYAN/SWALAYAN/index.html">
+  </iframe>
+
+    <div class="detail-card">
+
+      <div class="detail-image">
+        <img
+          id="detail-image"
+          src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
+          alt="Swalayan"
+        >
+      </div>
+
+      <div class="detail-info">
+        <h2 id="detail-nama">Pilih Swalayan</h2>
+        <p id="detail-deskripsi">Cari swalayan untuk melihat detail informasi.</p>
+
+        <div class="info-box">
+          <p>
+            <strong>Alamat:</strong><br>
+            <span id="detail-alamat">-</span>
+          </p>
+          <p>
+            <strong>Jam Operasional:</strong><br>
+            <span id="detail-jam">-</span>
+          </p>
+          <p>
+            <strong>Fasilitas:</strong><br>
+            <span id="detail-fasilitas">-</span>
+          </p>
+        </div>  
+
+        <a id="detail-link" href="#" target="_blank" class="btn-route">
+          Lihat Lokasi
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 Maps Swalayan Pekanbaru
+  </footer>
+
+  <script>
+
+    // =====================================
+    // DATA SWALAYAN MANUAL
+    // =====================================
+    const dataSwalayan = [
+  
+  {
+    nama:"Indogrosir Pekanbaru",
+    alamat:"Jl. Soekarno Hatta No.18, Sidomulyo Barat, Pekanbaru",
+    jam:"08:00 - 21:30",
+    fasilitas:"Produk Grosir & Eceran, Membership, Belanja Online, Parkir Luas",
+    deskripsi:"Pusat perkulakan modern untuk UMKM dan masyarakat umum.",
+    gambar:"https://lh5.googleusercontent.com/p/AF1QipM_pfRHbdkD4PBylCBadgraT4tgk2N1Dj_kjbPq=s1360-w1360-h1020",
+    lat:0.45501,
+    lng:101.43125
+  },
+  {
+    nama:"Farmers Market Living World Pekanbaru",
+    alamat:"Living World Pekanbaru",
+    jam:"09:00 - 22:00",
+    fasilitas:"Produk Segar, Toilet, Akses Kursi Roda",
+    deskripsi:"Supermarket premium dengan produk segar berkualitas.",
+    gambar:"https://www.shutterstock.com/image-photo/farmers-market-chain-supermarkets-that-260nw-2592207529.jpg",
+    lat:0.50329,
+    lng:101.43199
+  },
+  {
+    nama:"Lotte Grosir Pekanbaru",
+    alamat:"Jl. Soekarno Hatta No.50, Pekanbaru",
+    jam:"07:00 - 22:00",
+    fasilitas:"Parkir Luas, Membership, Invoice, Toilet",
+    deskripsi:"Pusat grosir modern untuk usaha dan rumah tangga.",
+    gambar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ47fLaX2IKir_7DrjQAnJGvWV3J9qTvr8Gpg&s",
+    lat:0.51147,
+    lng:101.42626
+  },
+  {
+    nama:"Hypermart SKA",
+    alamat:"Mall SKA Pekanbaru",
+    jam:"10:00 - 22:00",
+    fasilitas:"Fresh Market, Belanja Online, Locker",
+    deskripsi:"Hipermarket besar dengan kebutuhan keluarga lengkap.",
+    gambar:"https://www.riauonline.co.id/foto/bank/images2/Hypermart2.jpg",
+    lat:0.500676,
+    lng:101.418902
+  },
+  {
+    nama:"Jumbo Mart Delima",
+    alamat:"Jl. Delima, Pekanbaru",
+    jam:"07:00 - 22:00",
+    fasilitas:"Bakery, Coffee, Fresh Mart, Parkir Gratis",
+    deskripsi:"Swalayan lokal populer dengan area kuliner.",
+    gambar:"https://jumbogrouppekanbaru.com/images/jumbomart.png",
+    lat:0.47451,
+    lng:101.40941
+  },
+  {
+    nama:"Pasar Buah 88 Pekanbaru",
+    alamat:"Senapelan, Pekanbaru",
+    jam:"08:00 - 22:00",
+    fasilitas:"Produk Segar, Belanja Online, Parkir",
+    deskripsi:"Pusat belanja buah dan kebutuhan harian lengkap.",
+    gambar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb12knEdKCuS_wb_oAYAqs5WrFJRKdxDeRFA&s",
+    lat:0.53942,
+    lng:101.44124
+  },
+  {
+    nama:"Budiman Swalayan Arifin Ahmad",
+    alamat:"Jl. Arifin Ahmad No.58, Pekanbaru",
+    jam:"08:00 - 22:00",
+    fasilitas:"Grosir, Eceran, Mushola, AC, Parkir",
+    deskripsi:"Swalayan modern bernuansa islami.",
+    gambar:"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEBokk-0uuD9O0-D38KT0VlTvW3biymJfV_G-GCDFqjjffAWHmf070fZg6BSs3nPwFfSFXDB7DKGiWqhjLIPTz4mIJNQ0ZAMThHGhkj54Mg0Bc3sd2kKi1e6Ct0Stx0PizRoeQ5hbzG8DSV=s1360-w1360-h1020-rw",
+    lat:0.480982,
+    lng:101.437540
+  },
+  {
+    nama:"Transmart Pekanbaru",
+    alamat:"Jl. Musyawarah No.11, Pekanbaru",
+    jam:"08:00 - 22:00",
+    fasilitas:"CGV, Food Court, Arena Bermain, Parkir",
+    deskripsi:"Pusat belanja dan hiburan keluarga.",
+    gambar:"https://salsawisata.com/wp-content/uploads/2023/03/alamat-Transmart-Pekanbaru.jpg",
+    lat:0.50553,
+    lng:101.41268
+  },
+  {
+    nama:"MTC Mall Pekanbaru",
+    alamat:"Jl. HR Soebrantas KM 12.5",
+    jam:"10:00 - 22:00",
+    fasilitas:"Kuliner, Area Bermain, Parkir",
+    deskripsi:"Pusat perbelanjaan dan gaya hidup.",
+    gambar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCN2HKbCp3CLOsMxabDYIof4O6FQX1KWPHeg&s",
+    lat:0.46469,
+    lng:101.38517
+  },
+  {
+    nama:"Galaxy Swalayan",
+    alamat:"Jl. Bukit Barisan, Tenayan Raya",
+    jam:"07:30 - 22:00",
+    fasilitas:"Produk Lengkap, Parkir",
+    deskripsi:"Swalayan lokal populer di Tenayan Raya.",
+    gambar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzifHgSOJD-0ynAKw43rGQ5xSwk8KhXLMhuQ&s",
+    lat:0.49096,
+    lng:101.49302
+  },
+  {
+    nama:"New Planet Swalayan Bukit Barisan",
+    alamat:"Jl. Bukit Barisan No.8",
+    jam:"07:30 - 22:00",
+    fasilitas:"Lift, Frozen Food, Parkir Gratis",
+    deskripsi:"Swalayan keluarga dengan konsep hemat.",
+    gambar:"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEI5tO6uk0Pd7qWAnMA1sb0RvvnpkbMLe2ZRSofA9MhKFmtui5wCUqyr763IPKLD9_BrUcKUwdcsZt52t88a7xVj6crGwmH0GxH4n7B1wuN_i0zMQ4Coa6fXFx_rZ-lso72HsJCBA=s1360-w1360-h1020-rw",
+    lat:0.489910,
+    lng:101.488476
+  },
+  {
+    nama:"Fresh Mart",
+    alamat:"Jl. Hangtuah, Sail, Pekanbaru",
+    jam:"07:30 - 22:00",
+    fasilitas:"Produk Segar, Belanja Online, Parkir",
+    deskripsi:"Supermarket modern favorit masyarakat.",
+    gambar:"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFQKsTaInAiSM9noR4CwjragmmQLqwJi5lI-NKNo42qXWOh3fSk94BpYWG_hylW9lwoTS7ar8TSjEWAYSkWE40Axu2MonwArgGYjSXKM9wh98D27n7YhlkRHhGkoWW8XvPJfZls=s1360-w1360-h1020-rw",
+    lat:0.505794,
+    lng:101.500068
+  },
+  {
+    nama:"Mamamia Swalayan",
+    alamat:"Jl. Imam Munandar, Pekanbaru",
+    jam:"08:00 - 22:00",
+    fasilitas:"Parkir Luas, Pembayaran Fleksibel",
+    deskripsi:"Swalayan lokal dengan kebutuhan rumah tangga lengkap.",
+    gambar:"https://lh3.googleusercontent.com/gps-cs-s/APNQkAG-GDSnCrnm99JRpO7SftYG_KLmOLaDLiNF6RnWzOUX-uSLX0Fy7oN8vJrqqXTrn5xcrs3F9SktRIdZc8CJN0Fpm_T1Ab9kEyt9JIqko930qXr7G3o-8ZJgqTFw0gc8suSbymXc=s1360-w1360-h1020-rw",
+    lat:0.499094,
+    lng:101.479285
+  },
+  {
+    nama:"Hawaii Swalayan Rumbai",
+    alamat:"Jl. Yos Sudarso No.217, Rumbai",
+    jam:"08:00 - 22:00",
+    fasilitas:"ATM Center, Kuliner, Produk Lengkap",
+    deskripsi:"Toserba lokal favorit masyarakat Rumbai.",
+    gambar:"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEFr9C0sEoO_PVq6QklOOfkGt5BDkhRA6RpWVd_xR-KZ2Nce4YYcaCkCZf-d0xB5TbFR3mZ0RxEjLpNf89iy3XDeP6UtTGhXYLgDURio9XEiWPKWPJd-lCBQUxpN7BkmABZB_E=s1360-w1360-h1020-rw",
+    lat:0.56577,
+    lng:101.46588
+  }
+];
+
+    // =====================================
+    // CEK IFRAME MAP QGIS
+    // =====================================
+    const iframe = document.getElementById("mapFrame");
+    iframe.onload = function(){
+      console.log("Iframe map berhasil dimuat");
+    };
+
+    // =====================================
+    // CEK PATH MAP
+    // =====================================
+    fetch("SWALAYAN/SWALAYAN/index.html")
+      .then(response => {
+        if(response.ok){
+          console.log("Path map QGIS ditemukan");
+        } else {
+          console.log("Catatan: Jika dijalankan di lokal tanpa local server, fetch QGIS index mungkin diblokir CORS browser.");
+        }
+      })
+      .catch(error => {
+        console.log("Gagal melakukan fetch path (CORS jika dibuka langsung klik file HTML):", error);
+      });
+
+    // =====================================
+    // FUNCTION SEARCH (SUDAH DIPERBAIKI)
+    // =====================================
+    function cariSwalayan(){
+      const input = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+      // VALIDASI JIKA INPUT KOSONG
+      if(input === ""){
+        alert("Masukkan nama swalayan");
+        return;
+      }
+
+      // CARI DATA BERDASARKAN KATA KUNCI
+     const hasil = dataSwalayan.find(item =>
+  item.nama.toLowerCase().includes(input) ||
+  item.alamat.toLowerCase().includes(input) ||
+  item.fasilitas.toLowerCase().includes(input)
+);
+
+
+      // JIKA DATA DITEMUKAN
+      if(hasil){
+        // UPDATE DETAIL CARD DI LAYAR
+        document.getElementById("detail-nama").innerText = hasil.nama;
+        document.getElementById("detail-alamat").innerText = hasil.alamat;
+        document.getElementById("detail-jam").innerText = hasil.jam;
+        document.getElementById("detail-fasilitas").innerText = hasil.fasilitas;
+        document.getElementById("detail-deskripsi").innerText = hasil.deskripsi;
+        document.getElementById("detail-image").src = hasil.gambar;
+        
+        // SINTAKS TEMPLATE LITERAL SUDAH DIPERBAIKI (${hasil.lat})
+        document.getElementById("detail-link").href = `https://www.google.com/maps?q=${hasil.lat},${hasil.lng}`;
+      }
+      // JIKA TIDAK DITEMUKAN
+      else {
+        alert("Swalayan tidak ditemukan. Coba kata kunci lain (misal: Hero, Indomaret, atau Alfamart)");
+      }
+    }
+
+    // =====================================
+    // ENTER KEY TRIGGER FOR SEARCH
+    // =====================================
+    document
+      .getElementById("searchInput")
+      .addEventListener("keypress", function(e){
+        if(e.key === "Enter"){
+          cariSwalayan();
+        }
+      });
+
+  </script>
+
+</body>
+</html>
